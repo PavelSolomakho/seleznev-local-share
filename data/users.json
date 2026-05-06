@@ -3,5 +3,10 @@
     "salt": "83ce971813b35d237fa1196af1dacf30",
     "password_hash": "87e2eb1645f83214226aad13ae798b8e32feb22a8f85b9cdb1c15ed56d8a9c17",
     "role": "admin"
+  },
+  "Галя": {
+    "salt": "32e6270cae75456ec4e1cba52f2848b6",
+    "password_hash": "3ea41acc1598031d7e6819c43ded2ce72d32864d12927c99a763df4ccceb877f",
+    "role": "user"
   }
 }
