@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Пользователи · SELEZNEV Local Share</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial,sans-serif;background:#f8f3ea;margin:0;color:#211b15}
+    .wrap{max-width:980px;margin:30px auto;padding:0 16px}
+    .card{background:white;border-radius:24px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+    a{color:#b48a3c;text-decoration:none}
+    h1{margin:14px 0 18px}
+    input,select{padding:12px;border:1px solid #e4d8c8;border-radius:12px}
+    button{padding:12px 14px;border:0;border-radius:12px;background:#b48a3c;color:white;font-weight:700;cursor:pointer}
+    .danger{background:#a84d4d}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .box{border:1px solid #eee;border-radius:18px;padding:16px;background:#fffaf3}
+    table{width:100%;border-collapse:collapse;margin-top:14px}
+    td,th{padding:10px;border-bottom:1px solid #eee;text-align:left}
+    form.inline{display:flex;gap:8px;flex-wrap:wrap}
+    .flash{background:#fff7df;border:1px solid #ead8a9;padding:10px;border-radius:12px;margin-bottom:12px}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <a href="/">← Назад</a>
+      <h1>Пользователи</h1>
+
+      {% with messages=get_flashed_messages() %}
+        {% if messages %}
+          {% for msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <div class="grid">
+        <div class="box">
+          <h3>Создать пользователя</h3>
+          <form method="post">
+            <input type="hidden" name="action" value="create">
+            <p><input name="username" placeholder="Логин"></p>
+            <p><input name="password" placeholder="Пароль"></p>
+            <p>
+              <select name="role">
+                <option value="user">Пользователь</option>
+                <option value="admin">Администратор</option>
+              </select>
+            </p>
+            <button>Создать</button>
+          </form>
+        </div>
+
+        <div class="box">
+          <h3>Сменить пароль пользователю</h3>
+          <form method="post">
+            <input type="hidden" name="action" value="password">
+            <p><input name="username" placeholder="Логин"></p>
+            <p><input name="password" placeholder="Новый пароль"></p>
+            <button>Изменить пароль</button>
+          </form>
+        </div>
+      </div>
+
+      <h3>Список пользователей</h3>
+      <table>
+        <tr><th>Логин</th><th>Роль</th><th></th></tr>
+        {% for u in users %}
+          <tr>
+            <td>{{ u.username }}</td>
+            <td>{{ u.role }}</td>
+            <td>
+              {% if u.username != "admin" %}
+                <form class="inline" method="post" onsubmit="return confirm('Удалить пользователя?')">
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="username" value="{{ u.username }}">
+                  <button class="danger">Удалить</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</body>
+</html>
